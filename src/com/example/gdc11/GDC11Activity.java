@@ -386,9 +386,11 @@ public class GDC11Activity extends Activity {
                     // and then only do the upload of the result on the render thread. You probably
                     // also want to put all mipmaps into a single file.
                     for (int level = 0; level < levels; ++level) {
+                        String name = String.format("earth_map_%d.pkm", level);
+                        if (level == 0) name = "earth_map_0.pkm.jet";
                         ETC1Util.loadTexture(GLES20.GL_TEXTURE_2D, level, 0,
                                 GLES20.GL_RGB, GLES20.GL_UNSIGNED_SHORT_5_6_5,
-                                getAssets().open(String.format("earth_map_%d.pkm", level)));
+                                getAssets().open(name));
                     }
                 } catch (NotFoundException e) {
                     Log.e(kTag, "" + e);

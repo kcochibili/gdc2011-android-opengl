@@ -350,7 +350,7 @@ public class GDC11Activity extends Activity {
         }
 
         @Override
-        public void onSurfaceCreated(GL10 gl, EGLConfig config) {
+        public void onSurfaceCreated(GL10 unused, EGLConfig config) {
             // Load geometry.
             // NEVER load stuff on the render thread in real life!
             // You'd call fc.map() and b.load() on a loader thread, and

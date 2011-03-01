@@ -37,7 +37,10 @@ public class GDC11Activity extends Activity {
     // Tweakables.
     private static final boolean kUseMipmaps = true;
     private static final boolean kUseCompressedTextures = true;
-    private static final boolean kUseMultisampling = true;
+    private static final boolean kUseMultisampling = false;
+
+    // If |kUseMultisampling| is set, this is what chose the multisampling config.
+    private MultisampleConfigChooser mConfigChooser;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,7 +71,7 @@ public class GDC11Activity extends Activity {
             // Create an OpenGL ES 2.0 context.
             setEGLContextClientVersion(2);
             if (kUseMultisampling)
-                setEGLConfigChooser(new MultisampleConfigChooser());
+                setEGLConfigChooser(mConfigChooser = new MultisampleConfigChooser());
             setRenderer(mRenderer = new GDC11Renderer());
         }
 
@@ -244,8 +247,13 @@ public class GDC11Activity extends Activity {
 
         // This is called continuously to render.
         @Override
-        public void onDrawFrame(GL10 gl) {
-            GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
+        public void onDrawFrame(GL10 unused) {
+            int clearMask = GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT;
+            if (kUseMultisampling && mConfigChooser.usesCoverageAa()) {
+              final int GL_COVERAGE_BUFFER_BIT_NV = 0x8000;
+              clearMask |= GL_COVERAGE_BUFFER_BIT_NV;
+            }
+            GLES20.glClear(clearMask);
 
             GLES20.glUseProgram(mShader);
             GLES20.glUniformMatrix4fv(mViewProjectionLoc, 1,

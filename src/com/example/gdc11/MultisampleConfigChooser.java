@@ -40,6 +40,7 @@ public class MultisampleConfigChooser implements GLSurfaceView.EGLConfigChooser 
         if (numConfigs <= 0) {
             // No normal multisampling config was found. Try to create a
             // converage multisampling configuration, for the nVidia Tegra2.
+            // See the EGL_NV_coverage_sample documentation.
 
             final int EGL_COVERAGE_BUFFERS_NV = 0x30E0;
             final int EGL_COVERAGE_SAMPLES_NV = 0x30E1;
@@ -81,6 +82,8 @@ public class MultisampleConfigChooser implements GLSurfaceView.EGLConfigChooser 
                 if (numConfigs <= 0) {
                   throw new IllegalArgumentException("No configs match configSpec");
                 }
+            } else {
+                mUsesCoverageAa = true;
             }
         }
 
@@ -119,5 +122,11 @@ public class MultisampleConfigChooser implements GLSurfaceView.EGLConfigChooser 
         }
         return defaultValue;
     }
+
+    public boolean usesCoverageAa() {
+        return mUsesCoverageAa;
+    }
+
     private int[] mValue;
+    private boolean mUsesCoverageAa;
 }

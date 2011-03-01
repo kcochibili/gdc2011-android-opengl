@@ -19,3 +19,8 @@ To create compressed mipmaps:
 To recreate the geometry files:
 
 1.  gcc -o sphere sphere.c -std=c99 && ./sphere &&  cp *.jet res/raw/
+
+
+To look at the program logs:
+
+1. /path/to/android-sdk/platform-tools/adb logcat GDC11:V *:W

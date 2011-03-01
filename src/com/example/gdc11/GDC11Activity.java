@@ -32,6 +32,8 @@ import android.view.ScaleGestureDetector;
 // generally how to draw with OpenGL ES 2.0. For easier navigation,
 // almost all code is contained in this single class.
 public class GDC11Activity extends Activity {
+    static private final String kTag = "GDC11";
+
     // Tweakables.
     private static final boolean kUseMipmaps = true;
     private static final boolean kUseCompressedTextures = true;
@@ -278,7 +280,7 @@ public class GDC11Activity extends Activity {
                 long now = System.nanoTime();
                 double elapsedS = (now - mStartTime) / 1.0e9;
                 double msPerFrame = (1000 * elapsedS / mFrameCount);
-                Log.i("Go", "ms / frame: " + msPerFrame + " - fps: " + (1000 / msPerFrame));
+                Log.i(kTag, "ms / frame: " + msPerFrame + " - fps: " + (1000 / msPerFrame));
 
                 mFrameCount = 0;
                 mStartTime = now;
@@ -333,9 +335,9 @@ public class GDC11Activity extends Activity {
                 GLES20.glBufferData(target, out[1], b, GLES20.GL_STATIC_DRAW);
 
                 double loadS = (System.nanoTime() - start) / 1e9;
-                Log.i("Go", (size / loadS) + " bps, " + loadS + " total");
+                Log.i(kTag, (size / loadS) + " bps, " + loadS + " total");
             } catch (IOException e) {
-                Log.e("Go", "" + e);
+                Log.e(kTag, "" + e);
             }
         }
 
@@ -379,7 +381,7 @@ public class GDC11Activity extends Activity {
                 if (kUseMipmaps)
                     levels = 12;
                 try {
-                    Log.i("Go", "supports etc: " + ETC1Util.isETC1Supported());
+                    Log.i(kTag, "supports etc: " + ETC1Util.isETC1Supported());
                     // In a real app, you should read the texture on a bg thread with createTexture()
                     // and then only do the upload of the result on the render thread. You probably
                     // also want to put all mipmaps into a single file.
@@ -389,9 +391,9 @@ public class GDC11Activity extends Activity {
                                 getAssets().open(String.format("earth_map_%d.pkm", level)));
                     }
                 } catch (NotFoundException e) {
-                    Log.e("Go", "" + e);
+                    Log.e(kTag, "" + e);
                 } catch (IOException e) {
-                    Log.e("Go", "" + e);
+                    Log.e(kTag, "" + e);
                 }
             } else {
                 // 30 fps on tegra
@@ -406,7 +408,7 @@ public class GDC11Activity extends Activity {
                     GLES20.glGenerateMipmap(GLES20.GL_TEXTURE_2D);
             }
             double texS = (System.nanoTime() - texStart) / 1e9;
-            Log.i("Go", texS + " total tex load");
+            Log.i(kTag, texS + " total tex load");
 
             // Prepare shaders.
             mShader = Programs.loadProgram(kVertexShader, kFragmentShader);

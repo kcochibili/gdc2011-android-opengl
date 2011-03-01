@@ -8,7 +8,7 @@ import android.util.Log;
  */
 public class Programs {
   
-    private static String kLogTag = "Go";
+    private static String kLogTag = "GDC11";
 
     private static int getShader(String source, int type) {
         int shader = GLES20.glCreateShader(type);

@@ -1,0 +1,102 @@
+--- etcpack.cxx	2010-11-30 11:33:58.000000000 -0800
++++ etcpack.cxx	2011-01-09 21:13:12.000000000 -0800
+@@ -127,8 +127,8 @@
+ #define KTX_ENDIAN_REF      (0x04030201)
+ #define KTX_ENDIAN_REF_REV  (0x01020304)
+ 
+-static enum {GL_R=0x1903,GL_RG=0x8227,GL_RGB=0x1907,GL_RGBA=0x1908};
+-static enum {GL_ETC1_RGB8_OES=0x8d64};
++enum {GL_R=0x1903,GL_RG=0x8227,GL_RGB=0x1907,GL_RGBA=0x1908};
++enum {GL_ETC1_RGB8_OES=0x8d64};
+ 
+ 
+ int ktx_identifier[] = KTX_IDENTIFIER_REF;
+@@ -291,7 +291,7 @@
+ 	// Delete temp file if it exists.
+ 	if(fileExist("tmp.ppm"))
+ 	{
+-		sprintf(str, "del tmp.ppm\n");
++		sprintf(str, "rm tmp.ppm\n");
+ 		system(str);
+ 	}
+ 
+@@ -300,7 +300,7 @@
+ 	if(!strcmp(&filename[q],".ppm")) 
+ 	{
+ 		// Already a .ppm file. Just copy. 
+-		sprintf(str,"copy %s tmp.ppm \n", filename);
++		sprintf(str,"cp %s tmp.ppm \n", filename);
+ 		printf("Copying source file to tmp.ppm\n", filename);
+ 	}
+ 	else
+@@ -334,7 +334,7 @@
+ 	{
+ 		width=w1;
+ 		height=h1;
+-		system("del tmp.ppm");
++		system("rm tmp.ppm");
+ 
+ 		// Width must be divisible by 2 and height must be
+ 		// divisible by 4. Otherwise, we will not compress 
+@@ -390,7 +390,7 @@
+ 	// Delete temp file if it exists.
+ 	if(fileExist("tmp.ppm"))
+ 	{
+-		sprintf(str, "del tmp.ppm\n");
++		sprintf(str, "rm tmp.ppm\n");
+ 		system(str);
+ 	}
+ 
+@@ -399,7 +399,7 @@
+ 	if(!strcmp(&filename[q],".ppm")) 
+ 	{
+ 		// Already a .ppm file. Just copy. 
+-		sprintf(str,"copy %s tmp.ppm \n", filename);
++		sprintf(str,"cp %s tmp.ppm \n", filename);
+ 		printf("Copying source file to tmp.ppm\n", filename);
+ 	}
+ 	else
+@@ -423,7 +423,7 @@
+ 	{
+ 		width=w1;
+ 		height=h1;
+-		system("del tmp.ppm");
++		system("rm tmp.ppm");
+ 
+ 		return true;
+ 	}
+@@ -6937,7 +6937,7 @@
+ 	uint8 *srcimg;
+ 	int width,height;
+ 	int extendedwidth, extendedheight;
+-	struct _timeb tstruct;
++	//struct _timeb tstruct;
+ 	int tstart;
+ 	int tstop;
+ 	double PSNR;
+@@ -6975,12 +6975,12 @@
+ 	{
+ 		printf("Compressing...\n");
+ 		tstart=time(NULL);
+-		_ftime( &tstruct );
+-		tstart=tstart*1000+tstruct.millitm;
++		//_ftime( &tstruct );
++		//tstart=tstart*1000+tstruct.millitm;
+ 		compressImageFile(srcimg,width,height,dstfile,extendedwidth, extendedheight, action);			
+ 		tstop = time(NULL);
+-		_ftime( &tstruct );
+-		tstop = tstop*1000+tstruct.millitm;
++		//_ftime( &tstruct );
++		//tstop = tstop*1000+tstruct.millitm;
+ 		printf( "It took %u milliseconds to compress:\n", tstop - tstart);
+ 		PSNR = calculatePSNRfile(dstfile, srcimg);
+ 		free(srcimg);
+@@ -7187,7 +7187,7 @@
+ 		// Delete destination file if it exists
+ 		if(fileExist(dstfile))
+ 		{
+-			sprintf(str, "del %s\n",dstfile);	
++			sprintf(str, "rm %s\n",dstfile);	
+ 			system(str);
+ 		}
+ 
